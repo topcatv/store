@@ -12,15 +12,22 @@
 <meta http-equiv="Cache-Control" content="no-store" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link type="image/x-icon" href="${ctx}/static/images/favicon.ico" rel="shortcut icon">
-<link href="${ctx}/static/bootstrap/2.3.2/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<link href="${ctx}/static/bootstrap/3.0.2/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<link href="${ctx}/static/bootstrap/3.0.2/css/bootstrap-theme.min.css" type="text/css" rel="stylesheet" />
 <link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
 <link href="${ctx}/static/styles/default.css" type="text/css" rel="stylesheet" />
 <script src="${ctx}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
 <script src="${ctx}/static/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
 <script src="${ctx}/static/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
-
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
 
 <sitemesh:head/>
 </head>
@@ -29,10 +36,18 @@
 	<div class="container">
 		<%@ include file="/WEB-INF/layouts/header.jsp"%>
 		<div id="content">
-			<sitemesh:body/>
+			<div class="col-sm-3">
+				<ul class="nav nav-pills nav-stacked">
+					<li class="active"><a href="${ctx}/product/catalog">产品类别管理</a></li>
+					<li><a href="${ctx}/product">产品管理</a></li>
+					<li><a href="${ctx}/store">库存管理</a></li>
+					<li><a href="${ctx}/order">订单管理</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-9"><sitemesh:body/></div>
 		</div>
 		<%@ include file="/WEB-INF/layouts/footer.jsp"%>
 	</div>
-	<script src="${ctx}/static/bootstrap/2.3.2/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="${ctx}/static/bootstrap/3.0.2/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

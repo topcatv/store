@@ -7,7 +7,7 @@
 	    <h1><a href="${ctx}">QuickStart示例</a><small>--TodoList应用演示</small>
 	    <shiro:user>
 			<div class="btn-group pull-right">
-				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
 					<i class="icon-user"></i> <shiro:principal property="name"/>
 					<span class="caret"></span>
 				</a>
