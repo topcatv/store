@@ -16,7 +16,6 @@
  */
 package org.topcat.store.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
-import org.topcat.store.entity.Catalog;
-import org.topcat.store.repository.CatalogDao;
+import org.topcat.store.entity.Product;
+import org.topcat.store.repository.ProductDao;
 
 /**
  * @author topcat
@@ -38,23 +37,20 @@ import org.topcat.store.repository.CatalogDao;
  */
 @Service
 @Transactional
-public class CatalogService {
-	private CatalogDao catalogDao;
-
-	public void save(Catalog catalog) {
-		catalogDao.save(catalog);
-	}
-
+public class ProductService {
+	
+	private ProductDao productDao;
+	
 	@Autowired
-	public void setCatalogDao(CatalogDao catalogDao) {
-		this.catalogDao = catalogDao;
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 
-	public Page<Catalog> getAllCatalog(Map<String, Object> searchParams,
+	public Page<Product> getAllProduct(Map<String, Object> searchParams,
 			int pageNumber, int pageSize, String sortType) {
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
-		Specification<Catalog> spec = buildSpecification(searchParams);
-		return catalogDao.findAll(spec, pageRequest);
+		Specification<Product> spec = buildSpecification(searchParams);
+		return productDao.findAll(spec, pageRequest);
 	}
 	
 	/**
@@ -74,18 +70,18 @@ public class CatalogService {
 	/**
 	 * 创建动态查询条件组合.
 	 */
-	private Specification<Catalog> buildSpecification(Map<String, Object> searchParams) {
+	private Specification<Product> buildSpecification(Map<String, Object> searchParams) {
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		Specification<Catalog> spec = DynamicSpecifications.bySearchFilter(filters.values(), Catalog.class);
+		Specification<Product> spec = DynamicSpecifications.bySearchFilter(filters.values(), Product.class);
 		return spec;
 	}
 
-	public Catalog getCatalog(Long id) {
-		return catalogDao.findOne(id);
+	public void save(Product product) {
+		productDao.save(product);		
 	}
 
-	public List<Catalog> getAllCatalog() {
-		return catalogDao.findAll();
+	public Product getProduct(Long id) {
+		return productDao.findOne(id);
 	}
 
 }

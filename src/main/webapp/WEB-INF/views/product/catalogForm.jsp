@@ -9,16 +9,7 @@
 </head>
 
 <body>
-	<form id="inputForm" action="${ctx}/product/catalog" 
-	<c:choose>
-	    <c:when test="${not empty catalog}">
-	       method="put"
-	    </c:when>
-	    <c:otherwise>
-	        method="post"
-	    </c:otherwise>
-	</c:choose>
-	class="form-horizontal">
+	<form id="inputForm" action="${ctx}/product/catalog" method="post" class="form-horizontal">
 		<input type="hidden" name="id" value="${catalog.id}"/>
 		<fieldset>
 			<legend><small>商品类别管理</small></legend>

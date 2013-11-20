@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springside.modules.web.Servlets;
 import org.topcat.store.entity.Catalog;
+import org.topcat.store.entity.Product;
 import org.topcat.store.service.CatalogService;
+import org.topcat.store.service.ProductService;
 
 /**
  * @author topcat
@@ -41,9 +43,10 @@ import org.topcat.store.service.CatalogService;
 public class ProductController {
 	
 	private CatalogService catalogService;
+	private ProductService productService;
 	
 	@RequestMapping(value = "/catalog", method = RequestMethod.GET)
-	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+	public String listCatalog(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "page.size", defaultValue = "20") int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
 			ServletRequest request){
@@ -85,10 +88,52 @@ public class ProductController {
 		model.addAttribute("message", "保存成功！");
 		return "product/catalogForm";
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String listProduct(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "page.size", defaultValue = "20") int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
+			ServletRequest request){
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "product_");
+		Page<Product> products = productService.getAllProduct(searchParams, pageNumber, pageSize, sortType);
+		model.addAttribute("products", products);
+		model.addAttribute("sortType", sortType);
+		// 将搜索条件编码成字符串，用于排序，分页的URL
+		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "product_"));
+		return "product/productList";
+	}
+	
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String newProduct(Model model){
+		model.addAttribute("catalogs",catalogService.getAllCatalog());
+		return "product/productForm";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public String createProduct(Product product, Model model){
+		productService.save(product);
+		model.addAttribute("success", true);
+		model.addAttribute("message", "保存成功！");
+		model.addAttribute("catalogs",catalogService.getAllCatalog());
+		return "product/productForm";
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String getProduct(@PathVariable Long id, Model model){
+		Product product = productService.getProduct(id);
+		model.addAttribute("product", product);
+		model.addAttribute("catalogs",catalogService.getAllCatalog());
+		return "product/productForm";
+	}
 
 	@Autowired
 	public void setCatalogService(CatalogService catalogService) {
 		this.catalogService = catalogService;
+	}
+
+	@Autowired
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
 	}
 	
 }
