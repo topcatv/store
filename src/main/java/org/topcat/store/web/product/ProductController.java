@@ -16,9 +16,13 @@
  */
 package org.topcat.store.web.product;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,59 +32,67 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springside.modules.web.Servlets;
 import org.topcat.store.entity.Catalog;
+import org.topcat.store.entity.Picture;
 import org.topcat.store.entity.Product;
 import org.topcat.store.service.CatalogService;
+import org.topcat.store.service.PictureService;
 import org.topcat.store.service.ProductService;
 
 /**
  * @author topcat
- *
+ * 
  */
 @Controller
 @RequestMapping(value = "/product")
 public class ProductController {
-	
+
 	private CatalogService catalogService;
 	private ProductService productService;
-	
+	private PictureService pictureService;
+
 	@RequestMapping(value = "/catalog", method = RequestMethod.GET)
-	public String listCatalog(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+	public String listCatalog(
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "page.size", defaultValue = "20") int pageSize,
-			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
-			ServletRequest request){
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "catalog_");
-		Page<Catalog> catalogs = catalogService.getAllCatalog(searchParams, pageNumber, pageSize, sortType);
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType,
+			Model model, ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(
+				request, "catalog_");
+		Page<Catalog> catalogs = catalogService.getAllCatalog(searchParams,
+				pageNumber, pageSize, sortType);
 		model.addAttribute("catalogs", catalogs);
 		model.addAttribute("sortType", sortType);
 		// 将搜索条件编码成字符串，用于排序，分页的URL
-		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "catalog_"));
+		model.addAttribute("searchParams", Servlets
+				.encodeParameterStringWithPrefix(searchParams, "catalog_"));
 		return "product/catalogList";
 	}
-	
+
 	@RequestMapping(value = "/catalog/create", method = RequestMethod.GET)
-	public String newCatalog(){
+	public String newCatalog() {
 		return "product/catalogForm";
 	}
-	
+
 	@RequestMapping(value = "/catalog/{id}", method = RequestMethod.GET)
-	public String getCatalog(@PathVariable Long id, Model model){
+	public String getCatalog(@PathVariable Long id, Model model) {
 		Catalog catalog = catalogService.getCatalog(id);
 		model.addAttribute("catalog", catalog);
 		return "product/catalogForm";
 	}
 
 	@RequestMapping(value = "/catalog", method = RequestMethod.POST)
-	public String createCatalog(Catalog catalog, Model model){
+	public String createCatalog(Catalog catalog, Model model) {
 		catalogService.save(catalog);
 		model.addAttribute("success", true);
 		model.addAttribute("message", "保存成功！");
 		return "product/catalogForm";
 	}
-	
+
 	@RequestMapping(value = "/catalog", method = RequestMethod.PUT)
-	public String updateCatalog(Catalog catalog, Model model){
+	public String updateCatalog(Catalog catalog, Model model) {
 		Catalog catalog2 = catalogService.getCatalog(catalog.getId());
 		catalog2.setName(catalog.getName());
 		catalog2.setCode(catalog.getCode());
@@ -88,41 +100,69 @@ public class ProductController {
 		model.addAttribute("message", "保存成功！");
 		return "product/catalogForm";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET)
-	public String listProduct(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+	public String listProduct(
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "page.size", defaultValue = "20") int pageSize,
-			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
-			ServletRequest request){
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "product_");
-		Page<Product> products = productService.getAllProduct(searchParams, pageNumber, pageSize, sortType);
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType,
+			Model model, ServletRequest request) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(
+				request, "product_");
+		Page<Product> products = productService.getAllProduct(searchParams,
+				pageNumber, pageSize, sortType);
 		model.addAttribute("products", products);
 		model.addAttribute("sortType", sortType);
 		// 将搜索条件编码成字符串，用于排序，分页的URL
-		model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "product_"));
+		model.addAttribute("searchParams", Servlets
+				.encodeParameterStringWithPrefix(searchParams, "product_"));
 		return "product/productList";
 	}
-	
+
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String newProduct(Model model){
-		model.addAttribute("catalogs",catalogService.getAllCatalog());
+	public String newProduct(Model model) {
+		model.addAttribute("catalogs", catalogService.getAllCatalog());
 		return "product/productForm";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String createProduct(Product product, Model model){
+	public String createProduct(Product product,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			Model model, HttpServletRequest request) throws IllegalStateException, IOException {
+		if (!file.isEmpty()) {
+			String path = request.getSession().getServletContext()
+					.getRealPath("static")
+					+ "/upload";
+			String fileName = file.getOriginalFilename();
+			System.out.println(path);
+			File targetFile = new File(path, fileName);
+			if (!targetFile.exists()) {
+				targetFile.mkdirs();
+			}
+
+			// 保存
+			file.transferTo(targetFile);
+			
+			Picture picture = new Picture();
+			picture.setPicName(fileName);
+			picture.setUrl("static/upload/"+fileName);
+			pictureService.save(picture);
+			ArrayList<Picture> list = new ArrayList<Picture>();
+			list.add(picture);
+			product.setPictures(list);
+		}
 		productService.save(product);
 		model.addAttribute("success", true);
 		model.addAttribute("message", "保存成功！");
-		model.addAttribute("catalogs",catalogService.getAllCatalog());
+		model.addAttribute("catalogs", catalogService.getAllCatalog());
 		return "product/productForm";
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getProduct(@PathVariable Long id, Model model){
+	public String getProduct(@PathVariable Long id, Model model) {
 		Product product = productService.getProduct(id);
 		model.addAttribute("product", product);
-		model.addAttribute("catalogs",catalogService.getAllCatalog());
+		model.addAttribute("catalogs", catalogService.getAllCatalog());
 		return "product/productForm";
 	}
 
@@ -135,5 +175,10 @@ public class ProductController {
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
 	}
-	
+
+	@Autowired
+	public void setPictureService(PictureService pictureService) {
+		this.pictureService = pictureService;
+	}
+
 }

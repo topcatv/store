@@ -30,7 +30,7 @@
 		<tbody>
 			<c:forEach items="${products.content}" var="product">
 				<tr>
-					<td><a href="${ctx}/product/${product.id}"><img src="${ctx}/static/upload/${product.pictures[0].url}"/></a></td>
+					<td><a href="${ctx}/product/${product.id}" class="thumbnail"><img width="100" height="80" src="${ctx}/${product.pictures[0].url}?100*80"/></a></td>
 					<td><a href="${ctx}/product/${product.id}">${product.name}</a></td>
 					<td>${product.code}</td>
 					<td>${product.catalog.name}</td>

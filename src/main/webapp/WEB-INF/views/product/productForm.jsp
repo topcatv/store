@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<form id="inputForm" action="${ctx}/product" method="post" class="form-horizontal">
+	<form id="inputForm" enctype="multipart/form-data" action="${ctx}/product" method="post" class="form-horizontal">
 		<input type="hidden" name="id" value="${product.id}"/>
 		<fieldset>
 			<legend><small>产品管理</small></legend>
@@ -39,6 +39,12 @@
 						<option value="${catalog.id}">${catalog.name}</option>
 						</c:forEach>
 					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">图片</label>
+				<div class="col-sm-10">
+					<input id="filebutton" name="file" class="input-file" type="file" />
 				</div>
 			</div>
 			<div class="form-group">
