@@ -28,7 +28,7 @@
 			<c:forEach items="${catalogs.content}" var="catalog">
 				<tr>
 					<td><a href="${ctx}/product/catalog/${catalog.id}">${catalog.name}</a></td>
-					<td><a href="${ctx}/product/catalog/delete/${catalog.id}">删除</a></td>
+					<td><a class="btn btn-danger" href="${ctx}/product/catalog/delete/${catalog.id}"><i class="icon-trash icon-white"></i> 删除</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -13,19 +13,19 @@
 		<input type="hidden" name="id" value="${catalog.id}"/>
 		<fieldset>
 			<legend><small>商品类别管理</small></legend>
-			<div class="form-group">
-				<label class="control-label col-sm-2">类别名:</label>
-				<div class="col-sm-10">
+			<div class="control-group">
+				<label class="control-label">类别名:</label>
+				<div class="controls">
 					<input type="text" id="name" value="${catalog.name}" class="form-control required" name="name" />
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2">类别快捷码:</label>
-				<div class="col-sm-10">
+			<div class="control-group">
+				<label class="control-label">类别快捷码:</label>
+				<div class="controls">
 					<input type="text" name="code" value="${catalog.code}" class="form-control"/>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="control-group">
 				<div class="col-sm-offset-3">
 					<input id="submit_btn" class="btn btn-primary" type="submit" value="提交"/>&nbsp;	
 					<input id="cancel_btn" class="btn btn-default" type="button" value="返回" onclick="history.back()"/>

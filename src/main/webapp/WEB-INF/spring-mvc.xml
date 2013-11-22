@@ -26,6 +26,30 @@
   		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
+	<!-- Simple strategy: only path extension is taken into account -->
+	<bean id="cnManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="text/html" />
+
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean class="org.topcat.store.utils.JsonViewResolver" />
+	
+	<!-- View resolver that delegates to other controllers based on the content 
+		type -->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager" ref="cnManager" />
+
+	</bean>
+	
 	<!-- 定义JSP文件的位置 --> 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"/>

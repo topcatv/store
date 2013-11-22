@@ -17,12 +17,13 @@
 package org.topcat.store.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.topcat.store.entity.Store;
 
 /**
  * @author topcat
  *
  */
-public interface StoreDao extends JpaRepository<Store, Long> {
+public interface StoreDao extends JpaRepository<Store, Long>, JpaSpecificationExecutor<Store> {
 
 }

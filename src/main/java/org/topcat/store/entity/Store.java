@@ -17,20 +17,30 @@
 package org.topcat.store.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.topcat.store.utils.CustomDateSerializer;
 
 /**
  * @author topcat
  * 
  */
+@Entity
+@Table(name="st_store")
 public class Store extends IdEntity {
 
 	private Product product;
 	private long amount;
 	private BigDecimal inPrice;
 	private int discount;
+	private Date createDate;
 
 	@OneToOne
 	@JoinColumn(name = "product_id")
@@ -64,6 +74,20 @@ public class Store extends IdEntity {
 
 	public void setDiscount(int discount) {
 		this.discount = discount;
+	}
+
+	@JsonSerialize(using = CustomDateSerializer.class)
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	@PrePersist
+	public void preSave(){
+		this.createDate = new Date();
 	}
 
 }

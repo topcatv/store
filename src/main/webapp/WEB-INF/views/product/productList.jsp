@@ -13,9 +13,11 @@
 		<div id="message" class="alert alert-success">
 			<button data-dismiss="alert" class="close">×</button>${message}</div>
 	</c:if>
-
-	<tags:sort />
-
+	<div class="btn-group pull-right" style="margin-bottom:8px">
+		<a class="btn btn-primary" href="${ctx}/product/create"><i class="icon-plus-sign icon-white"></i> 创建</a>
+		<a class="btn btn-danger"><i class="icon-trash icon-white"></i> 删除</a>
+	</div>
+	
 	<table
 		class="table table-striped table-bordered table-condensed table-hover">
 		<thead>
@@ -30,11 +32,13 @@
 		<tbody>
 			<c:forEach items="${products.content}" var="product">
 				<tr>
-					<td><a href="${ctx}/product/${product.id}" class="thumbnail"><img width="100" height="80" src="${ctx}/${product.pictures[0].url}?100*80"/></a></td>
+					<td><a href="${ctx}/product/${product.id}" class="thumbnail"><img
+							width="100" height="80"
+							src="${ctx}/${product.pictures[0].url}?100*80" /></a></td>
 					<td><a href="${ctx}/product/${product.id}">${product.name}</a></td>
 					<td>${product.code}</td>
 					<td>${product.catalog.name}</td>
-					<td><a href="${ctx}/product/delete/${catalog.id}">删除</a></td>
+					<td><a class="btn btn-danger" href="${ctx}/product/delete/${catalog.id}"><i class="icon-trash icon-white"></i> 删除</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -42,6 +46,5 @@
 
 	<tags:pagination page="${products}" paginationSize="5" />
 
-	<a class="btn" href="${ctx}/product/create">创建产品</a>
 </body>
 </html>
