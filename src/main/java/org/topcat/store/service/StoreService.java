@@ -58,4 +58,8 @@ public class StoreService {
 		return storeDao.findAll(spec);
 	}
 
+	public List<Store> getAllStore() {
+		return storeDao.findAll();
+	}
+
 }

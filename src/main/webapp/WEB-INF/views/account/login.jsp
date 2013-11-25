@@ -55,16 +55,27 @@
 		<%
 		}
 		%>
-			<div class="input-prepend">
-				<span class="add-on"><i class="icon-user"></i></span><input style="height: 30px" type="text" id="username" placeholder="用户名" name="username" value="${username}" class="form-control required"/>
+		<div class="control-group-merged">
+			<div class="control-group">
+				<div class="input-prepend">
+					<span class="add-on"><i class="icon-user"></i></span><input style="height: 30px" type="text" id="username" placeholder="用户名" name="username" value="${username}" class="form-control required"/>
+				</div>
 			</div>
-			<div class="input-prepend">
-				<span class="add-on"><i class="icon-lock"></i></span><input style="height: 30px" type="password" id="password" placeholder="密码" name="password" class="form-control required"/>
+			<div class="control-group">
+				<div class="input-prepend">
+					<span class="add-on"><i class="icon-lock"></i></span><input style="height: 30px" type="password" id="password" placeholder="密码" name="password" class="form-control required"/>
+				</div>
 			</div>
-					
-			<label class="checkbox" for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe"/> 记住我</label>
+		</div>
+		<div class="control-group">
+			<label class="checkbox">
+				<input type="checkbox" id="rememberMe" name="rememberMe" class="uniform"> 记住我
+			</label>
+		</div>
+		<div class="control-group">
 			<input id="submit_btn" class="btn btn-primary" type="submit" value="登录"/> <a class="btn" href="${ctx}/register">注册</a>
 		 	<span class="help-block">(管理员: <b>admin/admin</b>, 普通用户: <b>user/user</b>)</span>
+		</div>
 		</form>
 	</div>
 </div>

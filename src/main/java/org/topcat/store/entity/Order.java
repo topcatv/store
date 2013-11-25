@@ -31,19 +31,9 @@ import javax.persistence.Table;
 @Table(name = "st_order")
 public class Order extends IdEntity {
 	
-	private Product product;
+	private Store store;
 	private BigDecimal sellPrice;
 	private int amount;
-
-	@OneToOne
-	@JoinColumn(name = "product_id")
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
 
 	public BigDecimal getSellPrice() {
 		return sellPrice;
@@ -59,5 +49,15 @@ public class Order extends IdEntity {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	@OneToOne
+	@JoinColumn(name = "store_id")
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 }

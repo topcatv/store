@@ -73,11 +73,9 @@
 					<li><a href="${ctx}/product">产品管理</a></li>
 					<li><a href="${ctx}/product/catalog">产品类别管理</a></li>
 					<li class="nav-header">库存管理</li>
-					<li><a href="${ctx}/store">入库</a></li>
-					<li><a href="#">出库</a></li>
-					<li><a href="${ctx}/store">库存查询</a></li>
+					<li><a href="${ctx}/store">库存管理</a></li>
 					<li class="nav-header">订单管理</li>
-					<li><a href="${ctx}/order">订单查询</a></li>
+					<li><a href="${ctx}/order">订单管理</a></li>
 					<li class="divider"></li>
 					<li><a href="#">帮助</a></li>
 				</ul>

@@ -17,12 +17,13 @@
 package org.topcat.store.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.topcat.store.entity.Order;
 
 /**
  * @author topcat
  *
  */
-public interface OrderDao extends JpaRepository<Order, Long> {
+public interface OrderDao extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
 
 }

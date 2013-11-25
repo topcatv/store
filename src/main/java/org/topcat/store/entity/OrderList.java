@@ -34,12 +34,16 @@ import javax.persistence.Table;
 public class OrderList extends IdEntity {
 	
 	private Date createDate;
-	private String name;
+	private Long orderNum;
 	private List<Order> orders;
 	private int status;
 	private User operator;
 	private Date modifyDate;
 	private User modifier;
+	
+	public OrderList() {
+		this.orderNum = System.currentTimeMillis();
+	}
 
 	@OneToMany
 	@JoinColumn(name = "order_id")
@@ -57,14 +61,6 @@ public class OrderList extends IdEntity {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@OneToOne
@@ -101,5 +97,13 @@ public class OrderList extends IdEntity {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Long getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Long orderNum) {
+		this.orderNum = orderNum;
 	}
 }
