@@ -121,7 +121,7 @@ public class OrderService {
 		for (Order order : orders) {
 			Store inDBStore = storeDao.findOne(order.getStore().getId());
 			Store store = order.getStore();
-			inDBStore.setAmount(store.getAmount() - order.getAmount());
+			inDBStore.setAmount(inDBStore.getAmount() - order.getAmount());
 			storeDao.save(inDBStore);
 		}
 	}
