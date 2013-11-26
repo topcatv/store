@@ -22,6 +22,8 @@
 	type="text/css" rel="stylesheet" />
 <link href="${ctx}/static/styles/font-awesome.min.css" type="text/css"
 	rel="stylesheet" />
+<link href="${ctx}/static/styles/default.css"
+	type="text/css" rel="stylesheet" />
 <script src="${ctx}/static/jquery/jquery-1.9.1.min.js"
 	type="text/javascript"></script>
 <script
@@ -84,6 +86,11 @@
 	<script>
 		$(document).ready(function() {
 			$("#loginForm").validate();
+			$(".well").css({
+				'margin-top': function () {
+					return ($(this).height() / 2);
+				}
+			});
 		});
 	</script>
 </body>
